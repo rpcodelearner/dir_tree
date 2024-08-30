@@ -1,0 +1,9 @@
+TODO Feature Requests:                                                  Tentative Switch(es)
+    Allow User to either include files or list only directories         -f
+    Allow User to decide sorting criteria for output order              -s unspecified(default), name, time
+    Allow User to select output formatting                              -o blank(default), ascii, dos
+
+TODO Code improvement(s)
+    Currently we rely on the package-private method DirTree.operate(..) to test for args, exit status(es) and
+    output messages. Create instead a wrapping class that redirects the I/O of the process under test, using
+    Process.getOutputStream() and ProcessBuilder to start() the process.
