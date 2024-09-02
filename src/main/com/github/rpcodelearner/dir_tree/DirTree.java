@@ -9,10 +9,10 @@ class DirTree {
 
     /**
      * Exit Status / Exit Code
-     * SUCCESS=0 , FAILURE=1
+     * SUCCESS=0 , FAILURE=1 , MALFORMED_ARGS=2
      */
     enum exitStatus {
-        SUCCESS(0), FAILURE(1);
+        SUCCESS(0), FAILURE(1), MALFORMED_ARGS(2);
         final int intValue;
         exitStatus(int i) {
             intValue = i;
@@ -22,7 +22,7 @@ class DirTree {
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println(USAGE_MESSAGE);
-            System.exit(exitStatus.SUCCESS.intValue); // TODO add a WRONG_ARGS exit case
+            System.exit(exitStatus.MALFORMED_ARGS.intValue);
         }
         final File rootFolder = new File(args[0]);
         if (confirmValidDirectory(rootFolder)) {

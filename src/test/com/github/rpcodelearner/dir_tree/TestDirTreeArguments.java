@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.github.rpcodelearner.dir_tree.DirTree.exitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -23,7 +24,7 @@ class TestDirTreeArguments {
         dirTreeRun.go();
         assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
         assertEquals("", dirTreeRun.stderr);
-        assertEquals(DirTree.exitStatus.SUCCESS.intValue, dirTreeRun.exitValue);
+        assertEquals(MALFORMED_ARGS.intValue, dirTreeRun.exitValue);
     }
 
     @Test
@@ -35,7 +36,7 @@ class TestDirTreeArguments {
         assertNotEquals(0, dirTreeRun.stdout.length());
         assertEquals(dirMaker.getExpected(), dirTreeRun.stdout);
         assertEquals("", dirTreeRun.stderr);
-        assertEquals(DirTree.exitStatus.SUCCESS.intValue, dirTreeRun.exitValue);
+        assertEquals(SUCCESS.intValue, dirTreeRun.exitValue);
     }
 
     @Test
@@ -44,7 +45,7 @@ class TestDirTreeArguments {
         dirTreeRun.go();
         assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
         assertEquals("", dirTreeRun.stderr);
-        assertEquals(DirTree.exitStatus.SUCCESS.intValue, dirTreeRun.exitValue); // TODO add a WRONG_ARGS exit case
+        assertEquals(MALFORMED_ARGS.intValue, dirTreeRun.exitValue);
     }
 
     @Test
@@ -55,7 +56,7 @@ class TestDirTreeArguments {
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
         assertEquals(DirTree.DIR_IS_FILE_MESSAGE + isAFile, dirTreeRun.stderr);
-        assertEquals(DirTree.exitStatus.FAILURE.intValue, dirTreeRun.exitValue);
+        assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
     @Test
@@ -65,7 +66,7 @@ class TestDirTreeArguments {
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
         assertEquals(DirTree.DIR_NOT_FOUND_MESSAGE + nonExistingDirectoryFilename, dirTreeRun.stderr);
-        assertEquals(DirTree.exitStatus.FAILURE.intValue, dirTreeRun.exitValue);
+        assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
     String getNonExistingDirName() {
