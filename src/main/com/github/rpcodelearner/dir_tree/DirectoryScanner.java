@@ -20,18 +20,23 @@ class DirectoryScanner {
         return output.toString();
     }
 
-    private Entry scanDir(File root) {
-        DirEntry dir = new DirEntry(root.getName());
-        for (File file : root.listFiles()) {
+    /**
+     * Populates a tree of Entry (as per the Composite design pattern)
+     * @param dir by contract this <u>must</u> be a directory
+     * @return root of the Composite tree
+     */
+    private Entry scanDir(File dir) {
+        DirEntry dirEntry = new DirEntry(dir.getName());
+        for (File file : dir.listFiles()) {
             Entry entry;
             if (file.isDirectory()) {
                 entry = scanDir(file);
             } else {
                 entry = new FileEntry(file.getName());
             }
-            dir.add(entry);
+            dirEntry.add(entry);
         }
-        return dir;
+        return dirEntry;
     }
 
 }
