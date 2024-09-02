@@ -2,9 +2,15 @@ package com.github.rpcodelearner.dir_tree;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -13,52 +19,53 @@ class TestDirTreeArguments {
 
     @Test
     void testNoArguments() {
-        final StringWriter outputString = new StringWriter();
-        final StringWriter errorString = new StringWriter();
-        DirTree.operate(new String[]{}, new PrintWriter(outputString), new PrintWriter(errorString));
-        assertEquals(DirTree.USAGE_MESSAGE + "\n", outputString.toString());
-        assertEquals("", errorString.toString());
+        DirTreeProcess dirTreeRun = new DirTreeProcess();
+        dirTreeRun.go();
+        assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
+        assertEquals("", dirTreeRun.stderr);
+        assertEquals(DirTree.exitStatus.SUCCESS.intValue, dirTreeRun.exitValue);
     }
 
     @Test
     void testGoodArguments() {
         DirMaker dirMaker = new JustFiles();
-        final StringWriter outputString = new StringWriter();
-        final StringWriter errorString = new StringWriter();
         final String rootPath = dirMaker.getTestDirectory().getPath();
-        DirTree.operate(new String[]{rootPath}, new PrintWriter(outputString), new PrintWriter(errorString));
-        assertNotEquals(0, outputString.toString().length());
-        assertEquals("", errorString.toString());
+        DirTreeProcess dirTreeRun = new DirTreeProcess(rootPath);
+        dirTreeRun.go();
+        assertNotEquals(0, dirTreeRun.stdout.length());
+        assertEquals(dirMaker.getExpected(), dirTreeRun.stdout);
+        assertEquals("", dirTreeRun.stderr);
+        assertEquals(DirTree.exitStatus.SUCCESS.intValue, dirTreeRun.exitValue);
     }
 
     @Test
     void testTooManyArguments() {
-        final StringWriter outputString = new StringWriter();
-        final StringWriter errorString = new StringWriter();
-        DirTree.operate(new String[]{"foo", "bar"}, new PrintWriter(outputString), new PrintWriter(errorString));
-        assertEquals(DirTree.USAGE_MESSAGE + "\n", outputString.toString());
-        assertEquals("", errorString.toString());
+        DirTreeProcess dirTreeRun = new DirTreeProcess("foo", "bar");
+        dirTreeRun.go();
+        assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
+        assertEquals("", dirTreeRun.stderr);
+        assertEquals(DirTree.exitStatus.SUCCESS.intValue, dirTreeRun.exitValue); // TODO add a WRONG_ARGS exit case
     }
 
     @Test
     void testInvalidArgumentIsFile() {
         DirMaker fileMaker = new InvalidDirIsFile();
-        final StringWriter outputString = new StringWriter();
-        final StringWriter errorString = new StringWriter();
         final String isAFile = fileMaker.getTestDirectory().getPath();
-        DirTree.operate(new String[]{isAFile}, new PrintWriter(outputString), new PrintWriter(errorString));
-        assertEquals("", outputString.toString());
-        assertEquals(DirTree.DIR_IS_FILE_MESSAGE + isAFile + "\n", errorString.toString());
+        DirTreeProcess dirTreeRun = new DirTreeProcess(isAFile);
+        dirTreeRun.go();
+        assertEquals("", dirTreeRun.stdout);
+        assertEquals(DirTree.DIR_IS_FILE_MESSAGE + isAFile, dirTreeRun.stderr);
+        assertEquals(DirTree.exitStatus.FAILURE.intValue, dirTreeRun.exitValue);
     }
 
     @Test
     void testInvalidArgumentDoesNotExist() {
         final String nonExistingDirectoryFilename = getNonExistingDirName();
-        final StringWriter outputString = new StringWriter();
-        final StringWriter errorString = new StringWriter();
-        DirTree.operate(new String[]{nonExistingDirectoryFilename}, new PrintWriter(outputString), new PrintWriter(errorString));
-        assertEquals("", outputString.toString());
-        assertEquals(DirTree.DIR_NOT_FOUND_MESSAGE + nonExistingDirectoryFilename + "\n", errorString.toString());
+        DirTreeProcess dirTreeRun = new DirTreeProcess(nonExistingDirectoryFilename);
+        dirTreeRun.go();
+        assertEquals("", dirTreeRun.stdout);
+        assertEquals(DirTree.DIR_NOT_FOUND_MESSAGE + nonExistingDirectoryFilename, dirTreeRun.stderr);
+        assertEquals(DirTree.exitStatus.FAILURE.intValue, dirTreeRun.exitValue);
     }
 
     String getNonExistingDirName() {
@@ -70,4 +77,37 @@ class TestDirTreeArguments {
         throw new RuntimeException("Could not invent the name of a non-existing file/directory");
     }
 
+    private static class DirTreeProcess {
+        private final List<String> commandLine = new ArrayList<>();
+        private int exitValue = -1;
+        private String stdout;
+        private String stderr;
+
+        DirTreeProcess(String... argsToDirTreeCmd) {
+            final String fileSeparator = FileSystems.getDefault().getSeparator();
+            // TODO have the following path checked on non-Linux system(s)
+            final String javaExecutable = System.getProperty("java.home") + fileSeparator + "bin" + fileSeparator + "java";
+            commandLine.add(javaExecutable);
+            commandLine.add("-cp");
+            commandLine.add(System.getProperty("java.class.path")); // FIXME java.class.path is OS-independent but it may be overkill
+            commandLine.add(DirTree.class.getCanonicalName());
+            Collections.addAll(commandLine, argsToDirTreeCmd);
+        }
+
+        void go() {
+            ProcessBuilder procBuilder = new ProcessBuilder(commandLine);
+            try {
+                Process process = procBuilder.start();
+                BufferedReader out = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                stdout = out.lines().collect(Collectors.joining(System.lineSeparator()));
+                stderr = err.lines().collect(Collectors.joining(System.lineSeparator()));
+                out.close();
+                err.close();
+                exitValue = process.waitFor();
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
