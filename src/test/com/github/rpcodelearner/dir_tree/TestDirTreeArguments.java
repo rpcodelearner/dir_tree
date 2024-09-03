@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.rpcodelearner.dir_tree.DirTree.exitStatus.*;
+import static com.github.rpcodelearner.dir_tree.DirTree.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -61,11 +61,11 @@ class TestDirTreeArguments {
 
     @Test
     void testInvalidArgumentDoesNotExist() {
-        final String nonExistingDirectoryFilename = getNonExistingDirName();
-        DirTreeProcess dirTreeRun = new DirTreeProcess(nonExistingDirectoryFilename);
+        final String nonExistingDirName = getNonExistingDirName();
+        DirTreeProcess dirTreeRun = new DirTreeProcess(nonExistingDirName);
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
-        assertEquals(DirTree.DIR_NOT_FOUND_MESSAGE + nonExistingDirectoryFilename, dirTreeRun.stderr);
+        assertEquals(DirTree.DIR_NOT_FOUND_MESSAGE + nonExistingDirName, dirTreeRun.stderr);
         assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 

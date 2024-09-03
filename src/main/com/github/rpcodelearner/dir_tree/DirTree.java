@@ -11,10 +11,10 @@ class DirTree {
      * Exit Status / Exit Code
      * SUCCESS=0 , FAILURE=1 , MALFORMED_ARGS=2
      */
-    enum exitStatus {
+    enum ExitStatus {
         SUCCESS(0), FAILURE(1), MALFORMED_ARGS(2);
         final int intValue;
-        exitStatus(int i) {
+        ExitStatus(int i) {
             intValue = i;
         }
     }
@@ -22,28 +22,26 @@ class DirTree {
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println(USAGE_MESSAGE);
-            System.exit(exitStatus.MALFORMED_ARGS.intValue);
+            System.exit(ExitStatus.MALFORMED_ARGS.intValue);
         }
         final File rootFolder = new File(args[0]);
-        if (confirmValidDirectory(rootFolder)) {
+        if (rootFolder.isDirectory()) {
             final DirectoryScanner scanner = new DirectoryScanner(rootFolder);
             System.out.println(scanner.getResult());
-            System.exit(exitStatus.SUCCESS.intValue);
+            System.exit(ExitStatus.SUCCESS.intValue);
         } else {
-            System.exit(exitStatus.FAILURE.intValue);
+            printErrorMessage(rootFolder);
+            System.exit(ExitStatus.FAILURE.intValue);
         }
     }
 
-    private static boolean confirmValidDirectory(File file) {
-        if (file.isFile()) {
-            System.err.println(DIR_IS_FILE_MESSAGE + file);
-            return false;
+    private static void printErrorMessage(File rootFolder) {
+        if (rootFolder.isFile()) {
+            System.err.println(DIR_IS_FILE_MESSAGE + rootFolder);
         }
-        if (!file.exists()) {
-            System.err.println(DIR_NOT_FOUND_MESSAGE + file);
-            return false;
+        if (!rootFolder.exists()) {
+            System.err.println(DIR_NOT_FOUND_MESSAGE + rootFolder);
         }
-        return true;
     }
 
 }
