@@ -3,4 +3,6 @@ TODO Feature Requests:                                                  Tentativ
     Allow User to decide sorting criteria for output order              -s unspecified(default), name, time
     Allow User to select output formatting                              -o blank(default), ascii, dos
 
-TODO / FIXME: ensure reasonable behavior on special files like pipes and symbolic links
+TODO ensure reasonable behavior on special files like pipes and symbolic links
+TODO test on non-Linux system(s)
+TODO System.getProperty("java.class.path") in TestDirTreeArguments.java is OS-independent but may be "overkill"

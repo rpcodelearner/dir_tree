@@ -86,11 +86,10 @@ class TestDirTreeArguments {
 
         DirTreeProcess(String... argsToDirTreeCmd) {
             final String fileSeparator = FileSystems.getDefault().getSeparator();
-            // TODO have the following path checked on non-Linux system(s)
             final String javaExecutable = System.getProperty("java.home") + fileSeparator + "bin" + fileSeparator + "java";
             commandLine.add(javaExecutable);
             commandLine.add("-cp");
-            commandLine.add(System.getProperty("java.class.path")); // FIXME java.class.path is OS-independent but it may be overkill
+            commandLine.add(System.getProperty("java.class.path"));
             commandLine.add(DirTree.class.getCanonicalName());
             Collections.addAll(commandLine, argsToDirTreeCmd);
         }
