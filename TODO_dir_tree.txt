@@ -6,3 +6,4 @@ TODO Feature Requests:                                                  Tentativ
 TODO ensure reasonable behavior on special files like pipes and symbolic links
 TODO test on non-Linux system(s)
 TODO System.getProperty("java.class.path") in TestDirTreeArguments.java is OS-independent but may be "overkill"
+TODO (issue to fix) Current testing of DirTree.main() relies on ProcessBuilder, so that Coverage data is not easy to gather.
