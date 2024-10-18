@@ -16,6 +16,13 @@ import static com.github.rpcodelearner.dir_tree.DirTree.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * This class tests {@link DirTree} by instantiating a process with
+ * required arguments and checking its stdout, stderr and exit status code.
+ * Since it is not easy to collect Coverage data, after a slight modification to
+ * DirTree, we introduced {@link TestInnerMain} instead. We keep this class
+ * for completeness, but we don't expect to add further tests.
+ */
 class TestDirTreeArguments {
 
     @Test
@@ -69,7 +76,7 @@ class TestDirTreeArguments {
         assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
-    String getNonExistingDirName() {
+    private String getNonExistingDirName() {
         for (int i = 0; i < 100; i++) {
             String candidateName = "foobar" + i;
             File candidate = new File(candidateName);

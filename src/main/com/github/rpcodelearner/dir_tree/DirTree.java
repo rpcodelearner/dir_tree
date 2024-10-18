@@ -20,18 +20,22 @@ class DirTree {
     }
 
     public static void main(String[] args) {
-        if (args.length != 1) {
+        System.exit(innerMain(args).intValue);
+    }
+
+    static ExitStatus innerMain(String[] args) {
+        if (args == null || args.length != 1) {
             System.out.println(USAGE_MESSAGE);
-            System.exit(ExitStatus.MALFORMED_ARGS.intValue);
+            return ExitStatus.MALFORMED_ARGS;
         }
         final File rootFolder = new File(args[0]);
         if (rootFolder.isDirectory()) {
             final DirectoryScanner scanner = new DirectoryScanner(rootFolder);
             System.out.println(scanner.getResult());
-            System.exit(ExitStatus.SUCCESS.intValue);
+            return ExitStatus.SUCCESS;
         } else {
             printErrorMessage(rootFolder);
-            System.exit(ExitStatus.FAILURE.intValue);
+            return ExitStatus.FAILURE;
         }
     }
 
