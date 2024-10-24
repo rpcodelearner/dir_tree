@@ -1,6 +1,6 @@
-package com.github.rpcodelearner.dir_tree;
+package com.github.rpcodelearner.dirtree;
 
-import com.github.rpcodelearner.dir_tree.DirTree.ExitStatus;
+import com.github.rpcodelearner.dirtree.DirTree.ExitStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 
-import static com.github.rpcodelearner.dir_tree.DirTree.ExitStatus.*;
+import static com.github.rpcodelearner.dirtree.DirTree.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestInnerMain {

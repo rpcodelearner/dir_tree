@@ -1,4 +1,4 @@
-package com.github.rpcodelearner.dir_tree;
+package com.github.rpcodelearner.dirtree;
 
 import java.io.File;
 

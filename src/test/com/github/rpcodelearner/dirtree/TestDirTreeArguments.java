@@ -1,4 +1,4 @@
-package com.github.rpcodelearner.dir_tree;
+package com.github.rpcodelearner.dirtree;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.rpcodelearner.dir_tree.DirTree.ExitStatus.*;
+import static com.github.rpcodelearner.dirtree.DirTree.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
