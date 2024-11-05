@@ -24,11 +24,14 @@ class DirTree {
     }
 
     static ExitStatus innerMain(String[] args) {
-        if (args == null || args.length != 1) {
+        ArgsParser argsParser;
+        try {
+            argsParser = new ArgsParser(args);
+        } catch (RuntimeException e) {
             System.out.println(USAGE_MESSAGE);
             return ExitStatus.MALFORMED_ARGS;
         }
-        final File rootFolder = new File(args[0]);
+        final File rootFolder = new File(argsParser.getRootFileName());
         if (rootFolder.isDirectory()) {
             final DirectoryScanner scanner = new DirectoryScanner(rootFolder);
             System.out.println(scanner.getResult());
