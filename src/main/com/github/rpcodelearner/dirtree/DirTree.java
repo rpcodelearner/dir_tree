@@ -33,8 +33,8 @@ class DirTree {
         }
         final File rootFolder = new File(argsParser.getRootFileName());
         if (rootFolder.isDirectory()) {
-            final DirectoryScanner scanner = new DirectoryScanner(rootFolder);
-            System.out.println(scanner.getResult());
+            final DirectoryScanner scanner = new DirectoryScanner(rootFolder, argsParser);
+            System.out.print(scanner.getResult());
             return ExitStatus.SUCCESS;
         } else {
             printErrorMessage(rootFolder);

@@ -1,10 +1,9 @@
 TODO Feature Requests:                                                  Tentative Switch(es)
-    Allow User to either include files or list only directories         -f
     Allow User to decide sorting criteria for output order              -s unspecified(default), name, time
     Allow User to select output formatting                              -o blank(default), ascii, dos
 
 TODO ensure reasonable behavior on special files like pipes and symbolic links
-    * allow user to choose whether to follow symbolic links or not
+    * allow user to choose whether to follow symbolic links or not (tentative switch: -l)
     * represent in a different way a branch that depends on a symbolic link (optional: use
       a different color as applicable in the terminal)
 TODO test on non-Linux system(s)

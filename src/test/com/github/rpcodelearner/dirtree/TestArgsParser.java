@@ -21,6 +21,7 @@ class TestArgsParser {
         final String expected = "directory name";
         String[] args = {expected};
         ArgsParser parser = new ArgsParser(args);
+        assertFalse(parser.areFilesIncluded());
         assertEquals(expected, parser.getRootFileName());
     }
 

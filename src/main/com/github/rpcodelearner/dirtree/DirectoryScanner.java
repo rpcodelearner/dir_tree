@@ -5,9 +5,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 class DirectoryScanner {
+    private final ArgsParser argsParser;
     private Entry rootEntry = null;
 
-    DirectoryScanner(File providedRoot) {
+    DirectoryScanner(File providedRoot, ArgsParser argsParser) {
+        this.argsParser = argsParser;
         if (providedRoot.isDirectory()) {
             rootEntry = scanDir(providedRoot);
         }
@@ -34,7 +36,9 @@ class DirectoryScanner {
             } else {
                 entry = new FileEntry(file.getName());
             }
-            dirEntry.add(entry);
+            if (entry instanceof DirEntry || argsParser.areFilesIncluded()) {
+                dirEntry.add(entry);
+            }
         }
         return dirEntry;
     }

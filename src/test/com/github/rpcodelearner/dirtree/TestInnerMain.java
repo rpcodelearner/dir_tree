@@ -40,7 +40,7 @@ class TestInnerMain {
     @Test
     void nullArgs() {
         final String[] args = null;
-        final String expectedOutStr = DirTree.USAGE_MESSAGE + "\n";
+        final String expectedOutStr = DirTree.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
         runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
@@ -48,7 +48,7 @@ class TestInnerMain {
     @Test
     void noArguments() {
         final String[] args = new String[]{};
-        final String expectedOutStr = DirTree.USAGE_MESSAGE + "\n";
+        final String expectedOutStr = DirTree.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
         runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
@@ -56,7 +56,7 @@ class TestInnerMain {
     @Test
     void tooManyArguments() {
         final String[] args = new String[]{"foo", "bar"};
-        final String expectedOutStr = DirTree.USAGE_MESSAGE + "\n";
+        final String expectedOutStr = DirTree.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
         runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
@@ -65,8 +65,8 @@ class TestInnerMain {
     void goodArgument() {
         DirMaker dirMaker = new JustFiles();
         final String rootPath = dirMaker.getTestDirectory().getPath();
-        final String[] args = new String[]{rootPath};
-        final String expectedOutStr = dirMaker.getExpected() + "\n";
+        final String[] args = new String[]{"-f", rootPath};
+        final String expectedOutStr = dirMaker.getExpected();
         final String expectedErrStr = "";
         runInnerMainTest(args, SUCCESS, expectedOutStr, expectedErrStr);
     }
@@ -77,7 +77,7 @@ class TestInnerMain {
         final String isAFile = fileMaker.getTestDirectory().getPath();
         final String[] args = new String[]{isAFile};
         final String expectedOutStr = "";
-        final String expectedErrStr = DirTree.DIR_IS_FILE_MESSAGE + isAFile + "\n";
+        final String expectedErrStr = DirTree.DIR_IS_FILE_MESSAGE + isAFile + System.lineSeparator();
         runInnerMainTest(args, FAILURE, expectedOutStr, expectedErrStr);
     }
 
@@ -86,7 +86,7 @@ class TestInnerMain {
         final String doesNotExist = getNonExistingDirName();
         final String[] args = new String[]{doesNotExist};
         final String expectedOutStr = "";
-        final String expectedErrStr = DirTree.DIR_NOT_FOUND_MESSAGE + doesNotExist + "\n";
+        final String expectedErrStr = DirTree.DIR_NOT_FOUND_MESSAGE + doesNotExist + System.lineSeparator();
         runInnerMainTest(args, FAILURE, expectedOutStr, expectedErrStr);
     }
 

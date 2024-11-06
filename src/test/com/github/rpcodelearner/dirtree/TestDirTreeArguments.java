@@ -14,15 +14,14 @@ import java.util.stream.Collectors;
 
 import static com.github.rpcodelearner.dirtree.DirTree.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * This class tests {@link DirTree} by instantiating a process with
  * required arguments and checking its stdout, stderr and exit status code.
  * Since it is not easy to collect Coverage data, after a slight modification to
  * DirTree, we introduced {@link TestInnerMain} instead. We keep this class
- * for completeness, but we don't expect to add further tests. INSTEAD, we
- * may remove redundant tests
+ * for completeness, but we don't expect to add further tests. <b>NOTE</b> that we
+ * may disable or delete redundant tests instead!
  */
 class TestDirTreeArguments {
 
@@ -33,18 +32,6 @@ class TestDirTreeArguments {
         assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
         assertEquals("", dirTreeRun.stderr);
         assertEquals(MALFORMED_ARGS.intValue, dirTreeRun.exitValue);
-    }
-
-    @Test
-    void testGoodArguments() {
-        DirMaker dirMaker = new JustFiles();
-        final String rootPath = dirMaker.getTestDirectory().getPath();
-        DirTreeProcess dirTreeRun = new DirTreeProcess(rootPath);
-        dirTreeRun.go();
-        assertNotEquals(0, dirTreeRun.stdout.length());
-        assertEquals(dirMaker.getExpected(), dirTreeRun.stdout);
-        assertEquals("", dirTreeRun.stderr);
-        assertEquals(SUCCESS.intValue, dirTreeRun.exitValue);
     }
 
     @Test
