@@ -21,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  * required arguments and checking its stdout, stderr and exit status code.
  * Since it is not easy to collect Coverage data, after a slight modification to
  * DirTree, we introduced {@link TestInnerMain} instead. We keep this class
- * for completeness, but we don't expect to add further tests.
+ * for completeness, but we don't expect to add further tests. INSTEAD, we
+ * may remove redundant tests
  */
 class TestDirTreeArguments {
 
@@ -44,15 +45,6 @@ class TestDirTreeArguments {
         assertEquals(dirMaker.getExpected(), dirTreeRun.stdout);
         assertEquals("", dirTreeRun.stderr);
         assertEquals(SUCCESS.intValue, dirTreeRun.exitValue);
-    }
-
-    @Test
-    void testTooManyArguments() {
-        DirTreeProcess dirTreeRun = new DirTreeProcess("foo", "bar");
-        dirTreeRun.go();
-        assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
-        assertEquals("", dirTreeRun.stderr);
-        assertEquals(MALFORMED_ARGS.intValue, dirTreeRun.exitValue);
     }
 
     @Test

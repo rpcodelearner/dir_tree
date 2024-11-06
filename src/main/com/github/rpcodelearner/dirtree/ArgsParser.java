@@ -1,17 +1,40 @@
 package com.github.rpcodelearner.dirtree;
 
+import java.util.HashSet;
+import java.util.Set;
+
 class ArgsParser {
-    private final String rootFileName;
+    private final Set<String> candidateRootNames = new HashSet<>();
+    private boolean includeFiles = false;
 
     ArgsParser(String[] args) {
-        if (args == null || args.length != 1) {
+        if (args == null || args.length == 0) {
             throw new RuntimeException();
         }
-        rootFileName = args[0];
+        for (String arg : args) {
+            if (arg.startsWith("-")) {
+                decodeSwitches(arg);
+            } else {
+                candidateRootNames.add(arg);
+            }
+        }
+        if (candidateRootNames.size() != 1) {
+            throw new RuntimeException();
+        }
+    }
+
+    private void decodeSwitches(String arg) {
+        if (arg.contains("f")) {
+            includeFiles = true;
+        }
     }
 
 
     String getRootFileName() {
-        return rootFileName;
+        return candidateRootNames.iterator().next();
+    }
+
+    boolean areFilesIncluded() {
+        return includeFiles;
     }
 }

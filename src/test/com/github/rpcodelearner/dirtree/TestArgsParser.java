@@ -21,6 +21,29 @@ class TestArgsParser {
         final String expected = "directory name";
         String[] args = {expected};
         ArgsParser parser = new ArgsParser(args);
-        assertEquals(args[0], parser.getRootFileName());
+        assertEquals(expected, parser.getRootFileName());
+    }
+
+    @Test
+    void filesSwitch() {
+        final String dirName = "dir_name";
+        final String filesSwitch = "-f";
+        String[] args = {filesSwitch, dirName};
+        ArgsParser parser = new ArgsParser(args);
+        assertTrue(parser.areFilesIncluded());
+        assertEquals(dirName, parser.getRootFileName());
+    }
+
+    @Test
+    void redundantFilesSwitch() {
+        // redundant '-f' are equivalent to only one '-f'
+        // args will be "-f -f -ff dir_name"
+        final String dirName = "dir_name";
+        final String filesSwitch = "-f";
+        final String doubleFilesSwitch = "-ff";
+        String[] args = {filesSwitch, filesSwitch, doubleFilesSwitch, dirName};
+        ArgsParser parser = new ArgsParser(args);
+        assertTrue(parser.areFilesIncluded());
+        assertEquals(dirName, parser.getRootFileName());
     }
 }
