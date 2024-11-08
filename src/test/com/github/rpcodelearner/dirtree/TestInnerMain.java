@@ -39,10 +39,9 @@ class TestInnerMain {
      */
     @Test
     void nullArgs() {
-        final String[] args = null;
         final String expectedOutStr = Main.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
-        runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
+        runInnerMainTest(null, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
 
     @Test
@@ -64,7 +63,7 @@ class TestInnerMain {
     @Test
     void goodArgument() {
         DirMaker dirMaker = new JustFiles();
-        final String rootPath = dirMaker.getTestDirectory().getPath();
+        final String rootPath = dirMaker.getTestDirectoryPath();
         final String[] args = new String[]{"-f", rootPath};
         final String expectedOutStr = dirMaker.getExpected();
         final String expectedErrStr = "";
@@ -74,7 +73,7 @@ class TestInnerMain {
     @Test
     void invalidArgumentIsFilename() {
         DirMaker fileMaker = new InvalidDirIsFile();
-        final String isAFile = fileMaker.getTestDirectory().getPath();
+        final String isAFile = fileMaker.getTestDirectoryPath();
         final String[] args = new String[]{isAFile};
         final String expectedOutStr = "";
         final String expectedErrStr = DirectoryScanner.DIR_IS_FILE_MESSAGE + isAFile + System.lineSeparator();
@@ -82,7 +81,7 @@ class TestInnerMain {
     }
 
     @Test
-    void invalidArgumentNonExisting() {
+    void invalidArgumentNonExistingDir() {
         final String doesNotExist = getNonExistingDirName();
         final String[] args = new String[]{doesNotExist};
         final String expectedOutStr = "";
@@ -103,7 +102,7 @@ class TestInnerMain {
 
     private String getNonExistingDirName() {
         for (int i = 0; i < 100; i++) {
-            String candidateName = "foobar" + i;
+            String candidateName = "dirFoobar" + i;
             File candidate = new File(candidateName);
             if (!candidate.exists()) return candidateName;
         }

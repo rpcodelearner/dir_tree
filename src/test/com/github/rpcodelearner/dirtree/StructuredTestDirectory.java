@@ -16,6 +16,17 @@ import java.io.File;
  * -----------------------
  */
 class StructuredTestDirectory extends DirMaker {
+    private final String testDirectoryPath;
+
+    StructuredTestDirectory() {
+        File testRoot = makeSubDir(TEMP_DIR, "dirWithSubdir");
+        File dirWithAFile = makeSubDir(testRoot, "dirWithAFile");
+        makeFile(dirWithAFile, "file0");
+        File dirWithFileAndSubdir = makeSubDir(testRoot, "dirWithFileAndSubdir");
+        makeFile(dirWithFileAndSubdir, "file1");
+        makeSubDir(dirWithFileAndSubdir, "emptyDir");
+        testDirectoryPath = testRoot.getPath();
+    }
 
     String getExpected() {
         return "dirWithSubdir" + System.lineSeparator() +
@@ -26,14 +37,9 @@ class StructuredTestDirectory extends DirMaker {
                 "      file1" + System.lineSeparator();
     }
 
-    File getTestDirectory() {
-        File testRoot = makeSubDir(TEMP_DIR, "dirWithSubdir");
-        File dirWithAFile = makeSubDir(testRoot, "dirWithAFile");
-        makeFile(dirWithAFile, "file0");
-        File dirWithFileAndSubdir = makeSubDir(testRoot, "dirWithFileAndSubdir");
-        makeFile(dirWithFileAndSubdir, "file1");
-        makeSubDir(dirWithFileAndSubdir, "emptyDir");
-        return testRoot;
+    @Override
+    String getTestDirectoryPath() {
+        return testDirectoryPath;
     }
 
 }

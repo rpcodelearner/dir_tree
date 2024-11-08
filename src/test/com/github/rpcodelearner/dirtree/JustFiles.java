@@ -4,12 +4,15 @@ import java.io.File;
 
 class JustFiles extends DirMaker {
 
+    private final String testDirectoryPath;
+
     JustFiles() {
-        root = makeSubDir(TEMP_DIR, "justFilesDIR");
+        File root = makeSubDir(TEMP_DIR, "justFilesDIR");
         makeFile(root, "file0");
         makeFile(root, "file1");
         makeFile(root, "file2");
         makeFile(root, "file3");
+        testDirectoryPath = root.getPath();
     }
 
     @Override
@@ -22,7 +25,7 @@ class JustFiles extends DirMaker {
     }
 
     @Override
-    File getTestDirectory() {
-        return root;
+    String getTestDirectoryPath() {
+        return testDirectoryPath;
     }
 }

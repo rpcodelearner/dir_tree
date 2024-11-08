@@ -37,7 +37,7 @@ class TestMainArguments {
     @Test
     void testInvalidArgumentIsFile() {
         DirMaker fileMaker = new InvalidDirIsFile();
-        final String isAFile = fileMaker.getTestDirectory().getPath();
+        final String isAFile = fileMaker.getTestDirectoryPath();
         DirTreeProcess dirTreeRun = new DirTreeProcess(isAFile);
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
@@ -57,7 +57,7 @@ class TestMainArguments {
 
     private String getNonExistingDirName() {
         for (int i = 0; i < 100; i++) {
-            String candidateName = "foobar" + i;
+            String candidateName = "fileFoobar" + i;
             File candidate = new File(candidateName);
             if (!candidate.exists()) return candidateName;
         }

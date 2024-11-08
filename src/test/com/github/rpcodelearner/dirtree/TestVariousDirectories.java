@@ -9,7 +9,7 @@ class TestVariousDirectories {
     @Test
     void testJustFiles() {
         DirMaker dirMaker = new JustFiles();
-        ArgsParser argsParser = new ArgsParser(new String[]{"-f", dirMaker.getTestDirectory().toString()});
+        ArgsParser argsParser = new ArgsParser(new String[]{"-f", dirMaker.getTestDirectoryPath()});
         DirectoryScanner directoryScanner = new DirectoryScanner(argsParser);
         assertEquals(dirMaker.getExpected(), directoryScanner.getResult());
     }
@@ -17,7 +17,7 @@ class TestVariousDirectories {
     @Test
     void justFilesNoFilesSwitch() {
         DirMaker dirMaker = new JustFiles();
-        ArgsParser argsParser = new ArgsParser(new String[]{dirMaker.getTestDirectory().toString()});
+        ArgsParser argsParser = new ArgsParser(new String[]{dirMaker.getTestDirectoryPath()});
         DirectoryScanner directoryScanner = new DirectoryScanner(argsParser);
         final String expected = filterOutFiles(dirMaker.getExpected());
         assertEquals(expected, directoryScanner.getResult());
@@ -26,7 +26,7 @@ class TestVariousDirectories {
     @Test
     void testStructuredTestDirectory() {
         DirMaker dirMaker = new StructuredTestDirectory();
-        ArgsParser argsParser = new ArgsParser(new String[]{"-f", dirMaker.getTestDirectory().toString()});
+        ArgsParser argsParser = new ArgsParser(new String[]{"-f", dirMaker.getTestDirectoryPath()});
         DirectoryScanner directoryScanner = new DirectoryScanner(argsParser);
         assertEquals(dirMaker.getExpected(), directoryScanner.getResult());
     }
@@ -34,7 +34,7 @@ class TestVariousDirectories {
     @Test
     void testStructuredTestDirectoryNoFilesSwitch() {
         DirMaker dirMaker = new StructuredTestDirectory();
-        ArgsParser argsParser = new ArgsParser(new String[]{dirMaker.getTestDirectory().toString()});
+        ArgsParser argsParser = new ArgsParser(new String[]{dirMaker.getTestDirectoryPath()});
         DirectoryScanner directoryScanner = new DirectoryScanner(argsParser);
         String expected = filterOutFiles(dirMaker.getExpected());
         assertEquals(expected, directoryScanner.getResult());
@@ -43,7 +43,7 @@ class TestVariousDirectories {
     @Test
     void testNestedDirectories() {
         DirMaker dirMaker = new NestedDirectories();
-        ArgsParser argsParser = new ArgsParser(new String[]{"-f", dirMaker.getTestDirectory().toString()});
+        ArgsParser argsParser = new ArgsParser(new String[]{"-f", dirMaker.getTestDirectoryPath()});
         DirectoryScanner directoryScanner = new DirectoryScanner(argsParser);
         assertEquals(dirMaker.getExpected(), directoryScanner.getResult());
     }
@@ -51,7 +51,7 @@ class TestVariousDirectories {
     @Test
     void testNestedDirectoriesNoFilesSwitch() {
         DirMaker dirMaker = new NestedDirectories();
-        ArgsParser argsParser = new ArgsParser(new String[]{dirMaker.getTestDirectory().toString()});
+        ArgsParser argsParser = new ArgsParser(new String[]{dirMaker.getTestDirectoryPath()});
         DirectoryScanner directoryScanner = new DirectoryScanner(argsParser);
         String expected = filterOutFiles(dirMaker.getExpected());
         assertEquals(expected, directoryScanner.getResult());
