@@ -5,12 +5,24 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 class DirectoryScanner {
+    static final String DIR_NOT_FOUND_MESSAGE = "Directory not found: ";
+    static final String DIR_IS_FILE_MESSAGE = "Directory is actually a file: ";
+    static final String NOT_A_DIRECTORY = "Pathname is not a directory: ";
     private final ArgsParser argsParser;
-    private Entry rootEntry = null;
+    private final Entry rootEntry;
 
-    DirectoryScanner(File providedRoot, ArgsParser argsParser) {
+    DirectoryScanner(ArgsParser argsParser) {
         this.argsParser = argsParser;
-        rootEntry = scanDir(providedRoot);
+        File providedRoot = new File(argsParser.getRootFileName());
+        if (providedRoot.isDirectory()) {
+            rootEntry = scanDir(providedRoot);
+        } else if (providedRoot.isFile()) {
+            throw new RuntimeException(DIR_IS_FILE_MESSAGE + providedRoot);
+        } else if (!providedRoot.exists()) {
+            throw new RuntimeException(DIR_NOT_FOUND_MESSAGE + providedRoot);
+        } else {
+            throw new RuntimeException(NOT_A_DIRECTORY + providedRoot);
+        }
     }
 
     public String getResult() {

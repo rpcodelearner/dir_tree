@@ -77,7 +77,7 @@ class TestInnerMain {
         final String isAFile = fileMaker.getTestDirectory().getPath();
         final String[] args = new String[]{isAFile};
         final String expectedOutStr = "";
-        final String expectedErrStr = Main.DIR_IS_FILE_MESSAGE + isAFile + System.lineSeparator();
+        final String expectedErrStr = DirectoryScanner.DIR_IS_FILE_MESSAGE + isAFile + System.lineSeparator();
         runInnerMainTest(args, FAILURE, expectedOutStr, expectedErrStr);
     }
 
@@ -86,7 +86,7 @@ class TestInnerMain {
         final String doesNotExist = getNonExistingDirName();
         final String[] args = new String[]{doesNotExist};
         final String expectedOutStr = "";
-        final String expectedErrStr = Main.DIR_NOT_FOUND_MESSAGE + doesNotExist + System.lineSeparator();
+        final String expectedErrStr = DirectoryScanner.DIR_NOT_FOUND_MESSAGE + doesNotExist + System.lineSeparator();
         runInnerMainTest(args, FAILURE, expectedOutStr, expectedErrStr);
     }
 

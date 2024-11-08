@@ -41,7 +41,7 @@ class TestMainArguments {
         DirTreeProcess dirTreeRun = new DirTreeProcess(isAFile);
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
-        assertEquals(Main.DIR_IS_FILE_MESSAGE + isAFile, dirTreeRun.stderr);
+        assertEquals(DirectoryScanner.DIR_IS_FILE_MESSAGE + isAFile, dirTreeRun.stderr);
         assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
@@ -51,7 +51,7 @@ class TestMainArguments {
         DirTreeProcess dirTreeRun = new DirTreeProcess(nonExistingDirName);
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
-        assertEquals(Main.DIR_NOT_FOUND_MESSAGE + nonExistingDirName, dirTreeRun.stderr);
+        assertEquals(DirectoryScanner.DIR_NOT_FOUND_MESSAGE + nonExistingDirName, dirTreeRun.stderr);
         assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
