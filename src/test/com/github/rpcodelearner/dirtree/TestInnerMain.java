@@ -1,6 +1,6 @@
 package com.github.rpcodelearner.dirtree;
 
-import com.github.rpcodelearner.dirtree.DirTree.ExitStatus;
+import com.github.rpcodelearner.dirtree.Main.ExitStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 
-import static com.github.rpcodelearner.dirtree.DirTree.ExitStatus.*;
+import static com.github.rpcodelearner.dirtree.Main.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestInnerMain {
@@ -40,7 +40,7 @@ class TestInnerMain {
     @Test
     void nullArgs() {
         final String[] args = null;
-        final String expectedOutStr = DirTree.USAGE_MESSAGE + System.lineSeparator();
+        final String expectedOutStr = Main.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
         runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
@@ -48,7 +48,7 @@ class TestInnerMain {
     @Test
     void noArguments() {
         final String[] args = new String[]{};
-        final String expectedOutStr = DirTree.USAGE_MESSAGE + System.lineSeparator();
+        final String expectedOutStr = Main.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
         runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
@@ -56,7 +56,7 @@ class TestInnerMain {
     @Test
     void tooManyArguments() {
         final String[] args = new String[]{"foo", "bar"};
-        final String expectedOutStr = DirTree.USAGE_MESSAGE + System.lineSeparator();
+        final String expectedOutStr = Main.USAGE_MESSAGE + System.lineSeparator();
         final String expectedErrStr = "";
         runInnerMainTest(args, MALFORMED_ARGS, expectedOutStr, expectedErrStr);
     }
@@ -77,7 +77,7 @@ class TestInnerMain {
         final String isAFile = fileMaker.getTestDirectory().getPath();
         final String[] args = new String[]{isAFile};
         final String expectedOutStr = "";
-        final String expectedErrStr = DirTree.DIR_IS_FILE_MESSAGE + isAFile + System.lineSeparator();
+        final String expectedErrStr = Main.DIR_IS_FILE_MESSAGE + isAFile + System.lineSeparator();
         runInnerMainTest(args, FAILURE, expectedOutStr, expectedErrStr);
     }
 
@@ -86,12 +86,12 @@ class TestInnerMain {
         final String doesNotExist = getNonExistingDirName();
         final String[] args = new String[]{doesNotExist};
         final String expectedOutStr = "";
-        final String expectedErrStr = DirTree.DIR_NOT_FOUND_MESSAGE + doesNotExist + System.lineSeparator();
+        final String expectedErrStr = Main.DIR_NOT_FOUND_MESSAGE + doesNotExist + System.lineSeparator();
         runInnerMainTest(args, FAILURE, expectedOutStr, expectedErrStr);
     }
 
     private void runInnerMainTest(String[] args, ExitStatus expectedExit, String expectedOutStr, String expectedErrStr) {
-        ExitStatus exitStatus = DirTree.innerMain(args);
+        ExitStatus exitStatus = Main.innerMain(args);
         System.out.flush();
         System.err.flush();
         String stdout = baosOut.toString();

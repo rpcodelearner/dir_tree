@@ -10,9 +10,7 @@ class DirectoryScanner {
 
     DirectoryScanner(File providedRoot, ArgsParser argsParser) {
         this.argsParser = argsParser;
-        if (providedRoot.isDirectory()) {
-            rootEntry = scanDir(providedRoot);
-        }
+        rootEntry = scanDir(providedRoot);
     }
 
     public String getResult() {

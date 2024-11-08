@@ -2,10 +2,11 @@ package com.github.rpcodelearner.dirtree;
 
 import java.io.File;
 
-class DirTree {
+class Main {
     static final String USAGE_MESSAGE = "Usage: java DirTree <directory name/path>\nDirTree will return 1 if the supplied name/path is not a valid directory.";
     static final String DIR_NOT_FOUND_MESSAGE = "Directory not found: ";
     static final String DIR_IS_FILE_MESSAGE = "Directory is actually a file: ";
+    static final String NOT_A_DIRECTORY = "Pathname is not a directory: ";
 
     /**
      * Exit Status / Exit Code
@@ -37,18 +38,19 @@ class DirTree {
             System.out.print(scanner.getResult());
             return ExitStatus.SUCCESS;
         } else {
-            printErrorMessage(rootFolder);
+            System.err.println(computeErrorMessage(rootFolder));
             return ExitStatus.FAILURE;
         }
     }
 
-    private static void printErrorMessage(File rootFolder) {
+    private static String computeErrorMessage(File rootFolder) {
         if (rootFolder.isFile()) {
-            System.err.println(DIR_IS_FILE_MESSAGE + rootFolder);
+            return DIR_IS_FILE_MESSAGE + rootFolder;
         }
         if (!rootFolder.exists()) {
-            System.err.println(DIR_NOT_FOUND_MESSAGE + rootFolder);
+            return DIR_NOT_FOUND_MESSAGE + rootFolder;
         }
+        return NOT_A_DIRECTORY + rootFolder;
     }
 
 }

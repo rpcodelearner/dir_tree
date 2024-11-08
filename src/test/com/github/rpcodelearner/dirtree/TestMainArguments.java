@@ -12,24 +12,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.rpcodelearner.dirtree.DirTree.ExitStatus.*;
+import static com.github.rpcodelearner.dirtree.Main.ExitStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * This class tests {@link DirTree} by instantiating a process with
+ * This class tests {@link Main} by instantiating a process with
  * required arguments and checking its stdout, stderr and exit status code.
  * Since it is not easy to collect Coverage data, after a slight modification to
  * DirTree, we introduced {@link TestInnerMain} instead. We keep this class
  * for completeness, but we don't expect to add further tests. <b>NOTE</b> that we
  * may disable or delete redundant tests instead!
  */
-class TestDirTreeArguments {
+class TestMainArguments {
 
     @Test
     void testNoArguments() {
         DirTreeProcess dirTreeRun = new DirTreeProcess();
         dirTreeRun.go();
-        assertEquals(DirTree.USAGE_MESSAGE, dirTreeRun.stdout);
+        assertEquals(Main.USAGE_MESSAGE, dirTreeRun.stdout);
         assertEquals("", dirTreeRun.stderr);
         assertEquals(MALFORMED_ARGS.intValue, dirTreeRun.exitValue);
     }
@@ -41,7 +41,7 @@ class TestDirTreeArguments {
         DirTreeProcess dirTreeRun = new DirTreeProcess(isAFile);
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
-        assertEquals(DirTree.DIR_IS_FILE_MESSAGE + isAFile, dirTreeRun.stderr);
+        assertEquals(Main.DIR_IS_FILE_MESSAGE + isAFile, dirTreeRun.stderr);
         assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
@@ -51,7 +51,7 @@ class TestDirTreeArguments {
         DirTreeProcess dirTreeRun = new DirTreeProcess(nonExistingDirName);
         dirTreeRun.go();
         assertEquals("", dirTreeRun.stdout);
-        assertEquals(DirTree.DIR_NOT_FOUND_MESSAGE + nonExistingDirName, dirTreeRun.stderr);
+        assertEquals(Main.DIR_NOT_FOUND_MESSAGE + nonExistingDirName, dirTreeRun.stderr);
         assertEquals(FAILURE.intValue, dirTreeRun.exitValue);
     }
 
@@ -76,7 +76,7 @@ class TestDirTreeArguments {
             commandLine.add(javaExecutable);
             commandLine.add("-cp");
             commandLine.add(System.getProperty("java.class.path"));
-            commandLine.add(DirTree.class.getCanonicalName());
+            commandLine.add(Main.class.getCanonicalName());
             Collections.addAll(commandLine, argsToDirTreeCmd);
         }
 
